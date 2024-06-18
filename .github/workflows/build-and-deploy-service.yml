@@ -44,20 +44,28 @@ jobs:
           scheme: calver
           increment: patch
 
-      - name: Build
-        run: |
-          cd release
-          npm --prefix ./ install
-          npm --prefix ./ run build
+      - name: get repository name
+        run: echo "REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Commit
-        run: |
-          cd release
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-          git add .
-          git commit -m "Release ${{ steps.version.outputs.version }}"
-          git push
+      - id: 'auth'
+          uses: 'google-github-actions/auth@v1'
+          with:
+            credentials_json: '${{ secrets.GOOGLE_CREDENTIALS_RAW }}'
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1.1.1
+
+      - name: Configure docker for GCP
+        run: gcloud auth configure-docker
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+            context: .
+            push: true
+            tags: ${{ vars.REGISTRY_NAME }}/${{ vars.COMMON_PROJECT_ID }}/svc-${{ env.REPOSITORY_NAME }}:latest
+            build-args: |
+              HTTP_PORT=8080
 
       - name: Create release
         uses: "actions/github-script@v6"
