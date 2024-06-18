@@ -10,6 +10,12 @@ variable "project_name" {
   nullable = false
 }
 
+variable "project_id" {
+  description = "The project id to create"
+  type        = string
+  nullable = false
+}
+
 variable "gcp_org_id" {
   description = "The organization id to create the project under"
   type        = string
@@ -42,12 +48,6 @@ variable billing_account {
     description = "The billing account to associate with the project"
     type        = string
     nullable = false
-}
-
-variable "project_id" {
-  description = "The project id to create"
-  type        = string
-  nullable = false
 }
 
 variable "python_session_secret"  {
