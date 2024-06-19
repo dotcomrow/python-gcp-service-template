@@ -3,7 +3,7 @@ locals {
 }
 
 data "external" "ol-svc-image-sha" {
-  program = ["${path.module}/scripts/get-image-sha.sh", "svc-${local.ol_svc_name}", "${var.common_project_id}"]
+  program = ["${path.module}/scripts/get-image-sha.sh", "svc-${var.project_name}", "${var.common_project_id}"]
 }
 
 resource "google_cloud_run_v2_service" "ol-svc" {
@@ -25,7 +25,7 @@ resource "google_cloud_run_v2_service" "ol-svc" {
       }
     }
     containers {
-      image = "${var.registry_name}/${var.common_project_id}/svc-${local.ol_svc_name}@${data.external.ol-svc-image-sha.result["sha"]}"
+      image = "${var.registry_name}/${var.common_project_id}/svc-${var.project_name}@${data.external.ol-svc-image-sha.result["sha"]}"
 
       env {
         name  = "SECRET_KEY"
