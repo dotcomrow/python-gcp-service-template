@@ -27,6 +27,7 @@ def authorized_user_decorator(func):
             user = id_token.verify_oauth2_token(token, requests.Request(), app.config['AUDIENCE'])
             kwargs["user"]= user
         except Exception as e:
+            print(e)
             logging.error("Error: " + str(e))
             return Response(response=json.dumps({'message': 'Unauthorized'}), status=401, mimetype="application/json")
  

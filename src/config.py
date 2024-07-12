@@ -2,8 +2,5 @@ import os
 
 AUDIENCE = os.getenv('AUDIENCE')
 SECRET_KEY = os.getenv('SECRET_KEY')
-PREFERENCES_DATA_LAYER_URL = os.getenv('PREFERENCES_DATA_LAYER_URL')
-PROJECT_ID = os.getenv('PROJECT_ID')
 CONTEXT_ROOT = os.getenv('CONTEXT_ROOT')
-REGION = os.getenv('REGION')
 DOMAIN = os.getenv('DOMAIN')
