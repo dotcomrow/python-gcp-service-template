@@ -92,6 +92,7 @@ jobs:
             }
 
       - name: Create workspace
+        id: create_workspace
         run: |
           cat > payload.json <<EOF
           {
